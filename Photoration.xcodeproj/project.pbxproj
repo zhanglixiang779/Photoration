@@ -24,7 +24,9 @@
 		31DAC9EB26041E85000ECEEE /* PhotoInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DAC9EA26041E85000ECEEE /* PhotoInfoViewController.swift */; };
 		31DAC9F726042FF0000ECEEE /* Photoration.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31DAC9F526042FF0000ECEEE /* Photoration.xcdatamodeld */; };
 		31DACA0326043686000ECEEE /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DACA0126043686000ECEEE /* Photo+CoreDataClass.swift */; };
-		31DACA0426043686000ECEEE /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DACA0226043686000ECEEE /* Photo+CoreDataProperties.swift */; };
+		31DACA1226053550000ECEEE /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DACA1126053550000ECEEE /* Photo+CoreDataProperties.swift */; };
+		31DACA1726053857000ECEEE /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DACA1626053857000ECEEE /* TagsViewController.swift */; };
+		31DACA1F2605393B000ECEEE /* TagDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DACA1E2605393B000ECEEE /* TagDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +70,9 @@
 		31DAC9EA26041E85000ECEEE /* PhotoInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoInfoViewController.swift; sourceTree = "<group>"; };
 		31DAC9F626042FF0000ECEEE /* Photoration.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Photoration.xcdatamodel; sourceTree = "<group>"; };
 		31DACA0126043686000ECEEE /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		31DACA0226043686000ECEEE /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		31DACA1126053550000ECEEE /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		31DACA1626053857000ECEEE /* TagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
+		31DACA1E2605393B000ECEEE /* TagDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +103,8 @@
 		3145020F25FECE6600B763D2 = {
 			isa = PBXGroup;
 			children = (
+				31DACA1126053550000ECEEE /* Photo+CoreDataProperties.swift */,
 				31DACA0126043686000ECEEE /* Photo+CoreDataClass.swift */,
-				31DACA0226043686000ECEEE /* Photo+CoreDataProperties.swift */,
 				3145021A25FECE6600B763D2 /* Photoration */,
 				3145023125FECE6700B763D2 /* PhotorationTests */,
 				3145023C25FECE6700B763D2 /* PhotorationUITests */,
@@ -121,6 +125,7 @@
 		3145021A25FECE6600B763D2 /* Photoration */ = {
 			isa = PBXGroup;
 			children = (
+				31DACA1C2605390A000ECEEE /* DataSource */,
 				31DAC9E626041DF5000ECEEE /* Storyboard */,
 				31DAC9E526041DAB000ECEEE /* Views */,
 				31DAC9E426041D9F000ECEEE /* Controllers */,
@@ -157,7 +162,6 @@
 				3145025125FED22900B763D2 /* FlickrAPI.swift */,
 				3145025625FEE1F600B763D2 /* PhotoStore.swift */,
 				3145025B25FEF8C300B763D2 /* FlickrPhoto.swift */,
-				31DAC9D12603E15A000ECEEE /* PhotoDataSource.swift */,
 				31DAC9DE260419C7000ECEEE /* ImageStore.swift */,
 				31DAC9F526042FF0000ECEEE /* Photoration.xcdatamodeld */,
 			);
@@ -169,6 +173,7 @@
 			children = (
 				3145021F25FECE6600B763D2 /* PhotosViewController.swift */,
 				31DAC9EA26041E85000ECEEE /* PhotoInfoViewController.swift */,
+				31DACA1626053857000ECEEE /* TagsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +193,15 @@
 				3145022625FECE6700B763D2 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		31DACA1C2605390A000ECEEE /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				31DAC9D12603E15A000ECEEE /* PhotoDataSource.swift */,
+				31DACA1E2605393B000ECEEE /* TagDataSource.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,7 +335,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3145025C25FEF8C300B763D2 /* FlickrPhoto.swift in Sources */,
-				31DACA0426043686000ECEEE /* Photo+CoreDataProperties.swift in Sources */,
+				31DACA1F2605393B000ECEEE /* TagDataSource.swift in Sources */,
+				31DACA1226053550000ECEEE /* Photo+CoreDataProperties.swift in Sources */,
 				31DAC9EB26041E85000ECEEE /* PhotoInfoViewController.swift in Sources */,
 				31DAC9D72603EA46000ECEEE /* PhotoCollectionViewCell.swift in Sources */,
 				31DAC9D22603E15A000ECEEE /* PhotoDataSource.swift in Sources */,
@@ -331,6 +346,7 @@
 				3145022025FECE6600B763D2 /* PhotosViewController.swift in Sources */,
 				31DAC9DF260419C7000ECEEE /* ImageStore.swift in Sources */,
 				3145021C25FECE6600B763D2 /* AppDelegate.swift in Sources */,
+				31DACA1726053857000ECEEE /* TagsViewController.swift in Sources */,
 				3145021E25FECE6600B763D2 /* SceneDelegate.swift in Sources */,
 				3145025225FED22900B763D2 /* FlickrAPI.swift in Sources */,
 			);
