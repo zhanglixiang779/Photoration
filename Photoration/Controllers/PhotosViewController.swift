@@ -7,6 +7,15 @@
 
 import UIKit
 
+//protocol Category {
+//    var category: PhotoCategory { get }
+//}
+//
+//extension Category {
+//    var category: PhotoCategory {
+//        return .mostRecent
+//    }
+//}
 /**
  This is the Base ViewController for
  1: InterestingPhotosViewController
@@ -16,6 +25,10 @@ class PhotosViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
+    var category: PhotoCategory? {
+        return nil
+    }
+    
     var store: PhotoStore!
     let photoDataSource = PhotoDataSource()
 
@@ -23,6 +36,15 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
+        
+        fetchPhotosLocally()
+        if let category = category {
+            store.fetchPhotosRemotely(category: category) { photosResult in
+                if case .success = photosResult {
+                    self.fetchPhotosLocally()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,15 +66,17 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    func fetchPhotosLocally(category: PhotoCategory) {
-        store.fetchPhotosLocally(category: category) { (photosResult) in
-            switch photosResult {
-            case let .success(photos):
-                self.photoDataSource.photos = photos
-            case .failure:
-                self.photoDataSource.photos.removeAll()
+    func fetchPhotosLocally() {
+        if let category = category {
+            store.fetchPhotosLocally(category: category) { (photosResult) in
+                switch photosResult {
+                case let .success(photos):
+                    self.photoDataSource.photos = photos
+                case .failure:
+                    self.photoDataSource.photos.removeAll()
+                }
+                self.collectionView.reloadSections(IndexSet(integer: 0))
             }
-            self.collectionView.reloadSections(IndexSet(integer: 0))
         }
     }
 }
