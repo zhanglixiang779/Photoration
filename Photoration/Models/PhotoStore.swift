@@ -27,31 +27,19 @@ class PhotoStore {
         return container
     }()
     
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
     }()
     
-    func fetchAllPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
-        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
-        let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)
-        fetchRequest.sortDescriptors = [sortByDateTaken]
-        let viewContext = persistentContainer.viewContext
-        viewContext.perform {
-            do {
-                let allPhotos = try viewContext.fetch(fetchRequest)
-                completion(.success(allPhotos))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-    
     func fetchAllTags(completion: @escaping (Result<[Tag], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         let sortByName = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
         fetchRequest.sortDescriptors = [sortByName]
-        let viewContext = persistentContainer.viewContext
         viewContext.perform {
             do {
                 let allTags = try fetchRequest.execute()
@@ -93,11 +81,31 @@ class PhotoStore {
         task.resume()
     }
     
-    func fetchInterestingPhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
+    /**
+     Fetch photos from Core Data
+     */
+    func fetchPhotosLocally(completion: @escaping (Result<[Photo], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)
+        fetchRequest.sortDescriptors = [sortByDateTaken]
+        viewContext.perform {
+            do {
+                let allPhotos = try self.viewContext.fetch(fetchRequest)
+                completion(.success(allPhotos))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    /**
+     Fetch photos from web service
+     */
+    func fetchPhotosRemotely(completion: @escaping (Result<[Photo], Error>) -> Void) {
         let url = FlickrAPI.interestingPhotosURL
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { (data, response, error) in
-            self.processPhotosRequest(data: data, error: error) { (result) in
+            self.persistPhotos(data: data, error: error) { (result) in
                 OperationQueue.main.addOperation {
                     completion(result)
                 }
@@ -107,7 +115,10 @@ class PhotoStore {
         task.resume()
     }
     
-    private func processPhotosRequest(data: Data?, error: Error?, completion: @escaping (Result<[Photo], Error>) -> Void) {
+    /**
+     Save photos into Core Data
+     */
+    private func persistPhotos(data: Data?, error: Error?, completion: @escaping (Result<[Photo], Error>) -> Void) {
         guard let jsonData = data else {
             completion(.failure(error!))
             return
@@ -151,8 +162,7 @@ class PhotoStore {
                 }
                 
                 let photoIDs = photos.map { $0.objectID }
-                let viewContext = self.persistentContainer.viewContext
-                let viewContextPhotos = photoIDs.map { viewContext.object(with: $0) } as! [Photo]
+                let viewContextPhotos = photoIDs.map { self.viewContext.object(with: $0) } as! [Photo]
                 completion(.success(viewContextPhotos))
             case let .failure(error):
                 completion(.failure(error))

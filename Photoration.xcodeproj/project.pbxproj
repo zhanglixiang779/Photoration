@@ -125,7 +125,6 @@
 		3145021A25FECE6600B763D2 /* Photoration */ = {
 			isa = PBXGroup;
 			children = (
-				31DACA1C2605390A000ECEEE /* DataSource */,
 				31DAC9E626041DF5000ECEEE /* Storyboard */,
 				31DAC9E526041DAB000ECEEE /* Views */,
 				31DAC9E426041D9F000ECEEE /* Controllers */,
@@ -181,6 +180,7 @@
 		31DAC9E526041DAB000ECEEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				31DACA1C2605390A000ECEEE /* DataSource */,
 				31DAC9D62603EA46000ECEEE /* PhotoCollectionViewCell.swift */,
 			);
 			path = Views;

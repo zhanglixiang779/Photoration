@@ -18,9 +18,9 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
-        updateDataSource()
-        store.fetchInterestingPhotos { photosResult in
-            self.updateDataSource()
+        fetchPhotosFromLocal()
+        store.fetchPhotosRemotely { photosResult in
+            self.fetchPhotosFromLocal()
         }
     }
     
@@ -38,8 +38,8 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    private func updateDataSource() {
-        store.fetchAllPhotos { (photosResult) in
+    private func fetchPhotosFromLocal() {
+        store.fetchPhotosLocally { (photosResult) in
             switch photosResult {
             case let .success(photos):
                 self.photoDataSource.photos = photos

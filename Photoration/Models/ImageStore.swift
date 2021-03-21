@@ -5,6 +5,9 @@
 //  Created by Lixiang Zhang on 3/18/21.
 //
 
+/**
+ This class is to cache images so that images are not redownloaded when scrolling back up.
+ */
 import UIKit
 
 class ImageStore {
@@ -14,12 +17,8 @@ class ImageStore {
     func setImage(_ image: UIImage, forKey key: String) {
         cache.setObject(image, forKey: key as NSString)
         
-        // Create full URL for image
         let url = imageURL(forKey: key)
-
-        // Turn image into JPEG data
         if let data = image.jpegData(compressionQuality: 0.5) {
-            // Write it to full URL
             try? data.write(to: url)
         }
     }
