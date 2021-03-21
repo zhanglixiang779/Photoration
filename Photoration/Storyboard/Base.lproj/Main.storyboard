@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2SQ-br-56N">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WJd-81-brM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Photoration-->
+        <!--Interesting Photos-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="PhotosViewController" customModule="Photoration" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="InterestingPhotosViewController" customModule="Photoration" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="o8g-9y-yWb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -57,14 +57,14 @@
                             </collectionViewCell>
                         </cells>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Photoration" id="X2f-LY-Xiv"/>
+                    <navigationItem key="navigationItem" title="Interesting Photos" id="X2f-LY-Xiv"/>
                     <connections>
-                        <outlet property="collectionView" destination="o8g-9y-yWb" id="Cgi-mZ-KEp"/>
+                        <outlet property="collectionView" destination="o8g-9y-yWb" id="giL-AQ-q1G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="105.80357142857143"/>
+            <point key="canvasLocation" x="1014" y="106"/>
         </scene>
         <!--Photo Info View Controller-->
         <scene sceneID="NNa-ud-91K">
@@ -75,14 +75,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="W9o-vC-xvj">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aaa-2c-v7t">
-                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="764" width="414" height="49"/>
                                 <items>
                                     <barButtonItem title="Tags" id="T3u-ut-eza">
                                         <connections>
@@ -178,10 +178,29 @@
             </objects>
             <point key="canvasLocation" x="2543" y="106"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="mrN-nd-4cS">
+            <objects>
+                <tabBarController id="WJd-81-brM" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uvh-tr-Hi9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="KdS-yr-4fd" kind="relationship" relationship="viewControllers" id="nWq-R1-LyK"/>
+                        <segue destination="2SQ-br-56N" kind="relationship" relationship="viewControllers" id="0Gh-QE-N36"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tGL-sg-b8C" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1120" y="214"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="dww-mH-MMX">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2SQ-br-56N" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="featured" id="7Rt-H1-EY4"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="o0C-aD-qUx">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -194,9 +213,86 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="brO-ua-M9g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="105.80357142857143"/>
+            <point key="canvasLocation" x="148" y="106"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bvI-EH-gHR">
+            <objects>
+                <navigationController id="KdS-yr-4fd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" systemItem="mostRecent" id="8po-Th-Gg5"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dtI-B2-CWf">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dss-4K-3Qq" kind="relationship" relationship="rootViewController" id="I0g-4W-AI4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vQF-vT-t5u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="891"/>
+        </scene>
+        <!--Most Recent Photos-->
+        <scene sceneID="s7X-xr-5Xz">
+            <objects>
+                <viewController id="dss-4K-3Qq" customClass="MostRecentPhotosViewController" customModule="Photoration" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="2NG-G5-wlP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="94X-4t-q4O">
+                            <size key="itemSize" width="90" height="90"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="2" minY="2" maxX="2" maxY="2"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="Qct-eX-WHg" customClass="PhotoCollectionViewCell" customModule="Photoration" customModuleProvider="target">
+                                <rect key="frame" x="2" y="2" width="90" height="90"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="eaZ-2O-o8p">
+                                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="w5I-ul-kRZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                        </imageView>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="kIz-TS-bHI">
+                                            <rect key="frame" x="35" y="35" width="20" height="20"/>
+                                            <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kIz-TS-bHI" firstAttribute="centerY" secondItem="eaZ-2O-o8p" secondAttribute="centerY" id="AaQ-Yc-1Zc"/>
+                                        <constraint firstItem="w5I-ul-kRZ" firstAttribute="top" secondItem="eaZ-2O-o8p" secondAttribute="top" id="P2i-HV-xtf"/>
+                                        <constraint firstItem="w5I-ul-kRZ" firstAttribute="leading" secondItem="eaZ-2O-o8p" secondAttribute="leading" id="YXw-UH-yyN"/>
+                                        <constraint firstAttribute="bottom" secondItem="w5I-ul-kRZ" secondAttribute="bottom" id="fnL-1O-s1I"/>
+                                        <constraint firstAttribute="trailing" secondItem="w5I-ul-kRZ" secondAttribute="trailing" id="g8W-tP-HnG"/>
+                                        <constraint firstItem="kIz-TS-bHI" firstAttribute="centerX" secondItem="eaZ-2O-o8p" secondAttribute="centerX" id="sKG-FK-cvB"/>
+                                    </constraints>
+                                </collectionViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="imageView" destination="w5I-ul-kRZ" id="562-sU-3nG"/>
+                                    <outlet property="spinner" destination="kIz-TS-bHI" id="oNs-k8-YRt"/>
+                                    <segue destination="b1t-Bd-awj" kind="show" identifier="showPhoto" id="oJG-jn-Zuz"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Most Recent Photos" id="0tZ-v0-z3U"/>
+                    <connections>
+                        <outlet property="collectionView" destination="2NG-G5-wlP" id="N0j-Mu-bGO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N5H-s9-3zG" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1013" y="891"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="oJG-jn-Zuz"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -13,6 +13,11 @@ enum PhotoError: Error {
     case missingImageURL
 }
 
+enum PhotoCategory: String {
+    case mostRecent = "recent"
+    case interesting = "interesting"
+}
+
 class PhotoStore {
     
     let imageStore = ImageStore()
@@ -84,10 +89,12 @@ class PhotoStore {
     /**
      Fetch photos from Core Data
      */
-    func fetchPhotosLocally(completion: @escaping (Result<[Photo], Error>) -> Void) {
+    func fetchPhotosLocally(category: PhotoCategory, completion: @escaping (Result<[Photo], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)
+        let predicate = NSPredicate(format: "\(#keyPath(Photo.category)) == %@", category.rawValue)
         fetchRequest.sortDescriptors = [sortByDateTaken]
+        fetchRequest.predicate = predicate
         viewContext.perform {
             do {
                 let allPhotos = try self.viewContext.fetch(fetchRequest)
@@ -101,11 +108,18 @@ class PhotoStore {
     /**
      Fetch photos from web service
      */
-    func fetchPhotosRemotely(completion: @escaping (Result<[Photo], Error>) -> Void) {
-        let url = FlickrAPI.interestingPhotosURL
+    func fetchPhotosRemotely(category: PhotoCategory, completion: @escaping (Result<[Photo], Error>) -> Void) {
+        let url: URL
+        switch category {
+        case .interesting:
+            url = FlickrAPI.interestingPhotosURL
+        case .mostRecent:
+            url = FlickrAPI.mostRecentPhotosURL
+        }
+        
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { (data, response, error) in
-            self.persistPhotos(data: data, error: error) { (result) in
+            self.persistPhotos(data: data, error: error, category: category) { (result) in
                 OperationQueue.main.addOperation {
                     completion(result)
                 }
@@ -118,7 +132,7 @@ class PhotoStore {
     /**
      Save photos into Core Data
      */
-    private func persistPhotos(data: Data?, error: Error?, completion: @escaping (Result<[Photo], Error>) -> Void) {
+    private func persistPhotos(data: Data?, error: Error?, category: PhotoCategory, completion: @escaping (Result<[Photo], Error>) -> Void) {
         guard let jsonData = data else {
             completion(.failure(error!))
             return
@@ -131,8 +145,7 @@ class PhotoStore {
                     
                     let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
                     let predicate = NSPredicate(
-                        format: "\(#keyPath(Photo.photoID)) == \(flickrPhoto.photoID)"
-                    )
+                        format: "\(#keyPath(Photo.photoID)) == %@", flickrPhoto.photoID)
                     fetchRequest.predicate = predicate
                     var fetchedPhotos: [Photo]?
                     context.performAndWait {
@@ -149,6 +162,7 @@ class PhotoStore {
                         photo.photoID = flickrPhoto.photoID
                         photo.remoteURL = flickrPhoto.remoteURL
                         photo.dateTaken = flickrPhoto.dateTaken
+                        photo.category = category.rawValue
                     }
                     return photo
                 }

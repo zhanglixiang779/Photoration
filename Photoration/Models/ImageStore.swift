@@ -6,7 +6,7 @@
 //
 
 /**
- This class is to cache images so that images are not redownloaded when scrolling back up.
+ This class is to cache images so that images will not be redownloaded when scrolling back up.
  */
 import UIKit
 

@@ -9,6 +9,7 @@ import Foundation
 
 enum EndPoint: String {
     case interestingPhotos = "flickr.interestingness.getList"
+    case mostRecentPhotos = "flickr.photos.getRecent"
 }
 
 struct FlickrResponse: Codable {
@@ -31,6 +32,10 @@ struct FlickrAPI {
     
     static var interestingPhotosURL: URL {
         return flickrURL(endPoint: .interestingPhotos, parameters: ["extras": "url_z,date_taken"])
+    }
+    
+    static var mostRecentPhotosURL: URL {
+        return flickrURL(endPoint: .mostRecentPhotos, parameters: ["extras": "url_z,date_taken"])
     }
     
     static func photos(fromJSON data: Data) -> Result<[FlickrPhoto], Error> {

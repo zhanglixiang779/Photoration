@@ -7,6 +7,11 @@
 
 import UIKit
 
+/**
+ This is the Base ViewController for
+ 1: InterestingPhotosViewController
+ 2: MostRecentPhotosViewController
+ */
 class PhotosViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
@@ -18,12 +23,11 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
-        fetchPhotosLocally()
-        store.fetchPhotosRemotely { photosResult in
-            if case .success = photosResult {
-                self.fetchPhotosLocally()
-            }
-        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,8 +44,8 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    private func fetchPhotosLocally() {
-        store.fetchPhotosLocally { (photosResult) in
+    func fetchPhotosLocally(category: PhotoCategory) {
+        store.fetchPhotosLocally(category: category) { (photosResult) in
             switch photosResult {
             case let .success(photos):
                 self.photoDataSource.photos = photos
