@@ -18,9 +18,11 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
-        fetchPhotosFromLocal()
+        fetchPhotosLocally()
         store.fetchPhotosRemotely { photosResult in
-            self.fetchPhotosFromLocal()
+            if case .success = photosResult {
+                self.fetchPhotosLocally()
+            }
         }
     }
     
@@ -38,7 +40,7 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    private func fetchPhotosFromLocal() {
+    private func fetchPhotosLocally() {
         store.fetchPhotosLocally { (photosResult) in
             switch photosResult {
             case let .success(photos):
@@ -51,8 +53,9 @@ class PhotosViewController: UIViewController {
     }
 }
 
-extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+// MARK: UICollectionViewDelegate
+
+extension PhotosViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let photo = photoDataSource.photos[indexPath.row]
         store.fetchImage(for: photo) { (result) in
@@ -67,7 +70,11 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDelega
             }
         }
     }
-    
+}
+
+// MARK: UICollectionViewDelegateFlowLayout
+
+extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
         let space: CGFloat = flowLayout?.minimumInteritemSpacing ?? 0.0
