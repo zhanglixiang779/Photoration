@@ -21,21 +21,18 @@ class PhotosViewController: UIViewController {
     }
     
     var store: PhotoStore!
-    let photoDataSource = PhotoDataSource()
+    
+    private let refreshControl = UIRefreshControl()
+    private let photoDataSource = PhotoDataSource()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
+        setupRefreshControll()
         
         fetchPhotosLocally()
-        if let category = category {
-            store.fetchPhotosRemotely(category: category) { photosResult in
-                if case .success = photosResult {
-                    self.fetchPhotosLocally()
-                }
-            }
-        }
+        fetchPhotosRemotely()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +54,19 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    func fetchPhotosLocally() {
+    private func fetchPhotosRemotely() {
+        if let category = category {
+            store.fetchPhotosRemotely(category: category) { photosResult in
+                if case .success = photosResult {
+                    self.fetchPhotosLocally()
+                }
+                
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
+    private func fetchPhotosLocally() {
         if let category = category {
             store.fetchPhotosLocally(category: category) { (photosResult) in
                 switch photosResult {
@@ -69,6 +78,17 @@ class PhotosViewController: UIViewController {
                 self.collectionView.reloadSections(IndexSet(integer: 0))
             }
         }
+    }
+    
+    private func setupRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refetchPhotos), for: .valueChanged)
+        refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching photos ...")
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc private func refetchPhotos() {
+        fetchPhotosRemotely()
     }
 }
 
