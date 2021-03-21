@@ -7,15 +7,6 @@
 
 import UIKit
 
-//protocol Category {
-//    var category: PhotoCategory { get }
-//}
-//
-//extension Category {
-//    var category: PhotoCategory {
-//        return .mostRecent
-//    }
-//}
 /**
  This is the Base ViewController for
  1: InterestingPhotosViewController
