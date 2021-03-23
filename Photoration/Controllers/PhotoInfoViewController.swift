@@ -19,7 +19,7 @@ class PhotoInfoViewController: UIViewController {
     
     @IBOutlet weak var actionButton: UIBarButtonItem!
     
-    var alert = Alert()
+    private let alert = Alert()
     
     var store: PhotoStore!
     

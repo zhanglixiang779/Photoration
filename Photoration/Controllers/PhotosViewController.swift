@@ -24,6 +24,7 @@ class PhotosViewController: UIViewController {
     var store: PhotoStore!
     let refreshControl = UIRefreshControl()
     let photoDataSource = PhotoDataSource()
+    private let alert = Alert()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +74,11 @@ class PhotosViewController: UIViewController {
     private func fetchPhotosRemotely() {
         if let category = category {
             store.fetchPhotosRemotely(category: category) { photosResult in
-                if case .success = photosResult {
+                switch photosResult {
+                case .success:
                     self.fetchPhotosLocally()
+                case let .failure(error):
+                    self.present(self.alert.alertController(message: error.localizedDescription), animated: true, completion: nil)
                 }
                 
                 self.refreshControl.endRefreshing()

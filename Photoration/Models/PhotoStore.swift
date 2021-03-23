@@ -21,6 +21,7 @@ enum PhotoCategory: String {
 class PhotoStore {
     
     private let imageStore = ImageStore()
+    private let alert = Alert()
     
     private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -136,6 +137,14 @@ class PhotoStore {
         
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { (data, response, error) in
+            
+            guard error == nil else {
+                OperationQueue.main.addOperation {
+                    completion(.failure(error!))
+                }
+                return
+            }
+            
             self.persistPhotos(data: data, error: error, category: category) { (result) in
                 OperationQueue.main.addOperation {
                     completion(result)
@@ -191,9 +200,10 @@ class PhotoStore {
                     return
                 }
                 
-                let photoIDs = photos.map { $0.objectID }
-                let viewContextPhotos = photoIDs.map { self.viewContext.object(with: $0) } as! [Photo]
-                completion(.success(viewContextPhotos))
+//                let photoIDs = photos.map { $0.objectID }
+//                let viewContextPhotos = photoIDs.map { self.viewContext.object(with: $0) } as! [Photo]
+//                completion(.success(viewContextPhotos))
+                completion(.success(photos))
             case let .failure(error):
                 completion(.failure(error))
             }
