@@ -22,8 +22,8 @@ class FlickrPhoto: Codable {
 }
 
 extension FlickrPhoto: Equatable {
+    
     static func == (lhs: FlickrPhoto, rhs: FlickrPhoto) -> Bool {
-        // Two Photos are the same if they have the same photoID
         return lhs.photoID == rhs.photoID
     }
 }

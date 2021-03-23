@@ -20,7 +20,16 @@ enum PhotoCategory: String {
 
 class PhotoStore {
     
-    let imageStore = ImageStore()
+    private let imageStore = ImageStore()
+    
+    private var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    private let session: URLSession = {
+        let config = URLSessionConfiguration.default
+        return URLSession(configuration: config)
+    }()
     
     let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Photoration")
@@ -30,15 +39,6 @@ class PhotoStore {
             }
         }
         return container
-    }()
-    
-    var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
-    private let session: URLSession = {
-        let config = URLSessionConfiguration.default
-        return URLSession(configuration: config)
     }()
     
     func fetchAllTags(completion: @escaping (Result<[Tag], Error>) -> Void) {

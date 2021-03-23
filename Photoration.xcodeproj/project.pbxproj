@@ -184,7 +184,6 @@
 				31DACA3C260717E6000ECEEE /* InterestingPhotosViewController.swift */,
 				31DACA4126071D8A000ECEEE /* MostRecentPhotosViewController.swift */,
 				31DACA462607D56C000ECEEE /* FavoritePhotosViewController.swift */,
-				319A16432609B9D100A9A600 /* Alert.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -192,6 +191,7 @@
 		31DAC9E526041DAB000ECEEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				319A16432609B9D100A9A600 /* Alert.swift */,
 				31DACA1C2605390A000ECEEE /* DataSource */,
 				31DAC9D62603EA46000ECEEE /* PhotoCollectionViewCell.swift */,
 			);
