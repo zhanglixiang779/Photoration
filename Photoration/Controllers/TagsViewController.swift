@@ -13,6 +13,7 @@ class TagsViewController: UITableViewController {
     var photo: Photo!
     var selectedIndexPaths = [IndexPath]()
     let tagDataSource = TagDataSource()
+    var alert = Alert()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +38,7 @@ class TagsViewController: UITableViewController {
                 let context = self.store.persistentContainer.viewContext
                 let newTag = Tag(context: context)
                 newTag.setValue(tagName, forKey: "name")
-                
-                do {
-                    try context.save()
-                } catch {
-                    print("Core Data save failed: \(error)")
-                }
+                try? context.save()
                 self.updateTags()
             }
         }
@@ -68,8 +64,8 @@ class TagsViewController: UITableViewController {
                         self.selectedIndexPaths.append(indexPath)
                     }
                 }
-            case let .failure(error):
-                print("Error fetching tags: \(error).")
+            case .failure:
+                self.present(self.alert.alertController(), animated: true, completion: nil)
             }
             
             self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -89,11 +85,7 @@ extension TagsViewController {
             photo.addToTags(tag)
         }
         
-        do {
-            try store.persistentContainer.viewContext.save()
-        } catch {
-            print("Core Data save failed \(error).")
-        }
+        try? store.persistentContainer.viewContext.save()
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

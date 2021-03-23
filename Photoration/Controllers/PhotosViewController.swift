@@ -41,16 +41,13 @@ class PhotosViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "showPhoto":
+        if segue.identifier == "showPhoto" {
             if let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first {
                 let photo = photoDataSource.photos[selectedIndexPath.row]
                 let destinationVC = segue.destination as! PhotoInfoViewController
                 destinationVC.store = store
                 destinationVC.photo = photo
             }
-        default:
-            preconditionFailure("Unexpected segue identifier.")
         }
     }
     
@@ -66,6 +63,11 @@ class PhotosViewController: UIViewController {
                 self.collectionView.reloadSections(IndexSet(integer: 0))
             }
         }
+    }
+    
+    func configureContexts() {
+        store.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        store.persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
     private func fetchPhotosRemotely() {
@@ -85,11 +87,6 @@ class PhotosViewController: UIViewController {
         refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching photos ...")
         collectionView.refreshControl = refreshControl
-    }
-    
-    func configureContexts() {
-        store.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-        store.persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
     @objc private func refetchPhotos() {

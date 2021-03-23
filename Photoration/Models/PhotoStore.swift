@@ -187,7 +187,6 @@ class PhotoStore {
                 do {
                     try context.save()
                 } catch {
-                    print("Error saving to Core Data: \(error)")
                     completion(.failure(error))
                     return
                 }

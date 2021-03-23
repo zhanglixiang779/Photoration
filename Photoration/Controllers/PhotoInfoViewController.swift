@@ -19,6 +19,8 @@ class PhotoInfoViewController: UIViewController {
     
     @IBOutlet weak var actionButton: UIBarButtonItem!
     
+    var alert = Alert()
+    
     var store: PhotoStore!
     
     var photo: Photo! {
@@ -46,7 +48,7 @@ class PhotoInfoViewController: UIViewController {
             case let .success(image):
                 self.imageView.image = image
             case let .failure(error):
-                print("Error fetching image for photo: \(error)")
+                self.present(self.alert.alertController(message: error.localizedDescription), animated: true, completion: nil)
             }
         }
         
@@ -59,14 +61,11 @@ class PhotoInfoViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "showTags":
+        if segue.identifier == "showTags" {
             let navController = segue.destination as! UINavigationController
             let tagController = navController.topViewController as! TagsViewController
             tagController.photo = photo
             tagController.store = store
-        default:
-            preconditionFailure("Unexpected segue identifier")
         }
     }
     
@@ -89,7 +88,7 @@ class PhotoInfoViewController: UIViewController {
             try store.persistentContainer.viewContext.save()
         } catch {
             photo.isFavorite = false
-            print("Error saving image for photo: \(error)")
+            present(alert.alertController(message: "Cannot save image, please try again!"), animated: true, completion: nil)
         }
         actionButton.title = buttonState.rawValue
     }
@@ -100,7 +99,7 @@ class PhotoInfoViewController: UIViewController {
             try store.persistentContainer.viewContext.save()
         } catch {
             photo.isFavorite = true
-            print("Error deleting image for photo: \(error)")
+            present(alert.alertController(message: "Cannot unfavorite image, please try again!"), animated: true, completion: nil)
         }
         actionButton.title = buttonState.rawValue
     }
