@@ -86,6 +86,8 @@ extension TagsViewController {
         }
         
         try? store.persistentContainer.viewContext.save()
+        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
