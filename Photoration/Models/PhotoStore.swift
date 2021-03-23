@@ -199,10 +199,6 @@ class PhotoStore {
                     completion(.failure(error))
                     return
                 }
-                
-//                let photoIDs = photos.map { $0.objectID }
-//                let viewContextPhotos = photoIDs.map { self.viewContext.object(with: $0) } as! [Photo]
-//                completion(.success(viewContextPhotos))
                 completion(.success(photos))
             case let .failure(error):
                 completion(.failure(error))
