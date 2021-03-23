@@ -3,6 +3,7 @@
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="dateTaken" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="photoID" optional="YES" attributeType="String"/>
         <attribute name="remoteURL" optional="YES" attributeType="URI"/>
         <attribute name="title" optional="YES" attributeType="String"/>
@@ -13,7 +14,7 @@
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="tags" inverseEntity="Photo"/>
     </entity>
     <elements>
-        <element name="Photo" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="Photo" positionX="-63" positionY="-18" width="128" height="148"/>
         <element name="Tag" positionX="-54" positionY="18" width="128" height="73"/>
     </elements>
 </model>

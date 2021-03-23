@@ -9,8 +9,6 @@ import UIKit
 
 class MostRecentPhotosViewController: PhotosViewController {
     
-    private let refreshControl = UIRefreshControl()
-    
     override var category: PhotoCategory {
         return .mostRecent
     }

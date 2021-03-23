@@ -89,6 +89,23 @@ class PhotoStore {
     /**
      Fetch photos from Core Data
      */
+    func fetchFavoritePhotos(completion: @escaping (Result<[Photo], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "\(#keyPath(Photo.isFavorite)) == \(true)")
+        fetchRequest.predicate = predicate
+        viewContext.perform {
+            do {
+                let allPhotos = try self.viewContext.fetch(fetchRequest)
+                completion(.success(allPhotos))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    /**
+     Fetch photos from Core Data
+     */
     func fetchPhotosLocally(category: PhotoCategory, completion: @escaping (Result<[Photo], Error>) -> Void) {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)

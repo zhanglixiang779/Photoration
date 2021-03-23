@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var store: PhotoStore = PhotoStore()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -22,12 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         rootViewController.viewControllers?.forEach { (viewController) in
             let navViewController = viewController as! UINavigationController
             let topViewController = navViewController.topViewController
-            switch topViewController {
-            case is PhotosViewController:
-                (topViewController as! PhotosViewController).store = PhotoStore()
-            default:
-            break
-            }
+            (topViewController as? PhotosViewController)?.store = store
         }
     }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 /**
  This is the Base ViewController for
@@ -21,16 +22,15 @@ class PhotosViewController: UIViewController {
     }
     
     var store: PhotoStore!
-    
-    private let refreshControl = UIRefreshControl()
-    private let photoDataSource = PhotoDataSource()
+    let refreshControl = UIRefreshControl()
+    let photoDataSource = PhotoDataSource()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
         setupRefreshControll()
-        
+        configureContexts()
         fetchPhotosLocally()
         fetchPhotosRemotely()
     }
@@ -46,11 +46,25 @@ class PhotosViewController: UIViewController {
             if let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first {
                 let photo = photoDataSource.photos[selectedIndexPath.row]
                 let destinationVC = segue.destination as! PhotoInfoViewController
-                destinationVC.photo = photo
                 destinationVC.store = store
+                destinationVC.photo = photo
             }
         default:
             preconditionFailure("Unexpected segue identifier.")
+        }
+    }
+    
+    func fetchPhotosLocally() {
+        if let category = category {
+            store.fetchPhotosLocally(category: category) { (photosResult) in
+                switch photosResult {
+                case let .success(photos):
+                    self.photoDataSource.photos = photos
+                case .failure:
+                    self.photoDataSource.photos.removeAll()
+                }
+                self.collectionView.reloadSections(IndexSet(integer: 0))
+            }
         }
     }
     
@@ -66,25 +80,16 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    private func fetchPhotosLocally() {
-        if let category = category {
-            store.fetchPhotosLocally(category: category) { (photosResult) in
-                switch photosResult {
-                case let .success(photos):
-                    self.photoDataSource.photos = photos
-                case .failure:
-                    self.photoDataSource.photos.removeAll()
-                }
-                self.collectionView.reloadSections(IndexSet(integer: 0))
-            }
-        }
-    }
-    
     private func setupRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refetchPhotos), for: .valueChanged)
         refreshControl.tintColor = UIColor(red:0.25, green:0.72, blue:0.85, alpha:1.0)
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching photos ...")
         collectionView.refreshControl = refreshControl
+    }
+    
+    func configureContexts() {
+        store.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        store.persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
     @objc private func refetchPhotos() {

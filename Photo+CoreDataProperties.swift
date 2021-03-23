@@ -2,7 +2,7 @@
 //  Photo+CoreDataProperties.swift
 //  Photoration
 //
-//  Created by Lixiang Zhang on 3/20/21.
+//  Created by Lixiang Zhang on 3/21/21.
 //
 //
 
@@ -21,6 +21,7 @@ extension Photo {
     @NSManaged public var remoteURL: URL?
     @NSManaged public var title: String?
     @NSManaged public var category: String?
+    @NSManaged public var isFavorite: Bool
     @NSManaged public var tags: NSSet?
 
 }
