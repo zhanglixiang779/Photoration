@@ -9,11 +9,12 @@ import UIKit
 
 class TagsViewController: UITableViewController {
     
+    private var selectedIndexPaths = [IndexPath]()
+    private let tagDataSource = TagDataSource()
+    private var alert = Alert()
+    
     var store: PhotoStore!
     var photo: Photo!
-    var selectedIndexPaths = [IndexPath]()
-    let tagDataSource = TagDataSource()
-    var alert = Alert()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,7 @@ class TagsViewController: UITableViewController {
         
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             if let tagName = alertController.textFields?.first?.text {
-                let context = self.store.persistentContainer.viewContext
+                let context = self.store.viewContext
                 let newTag = Tag(context: context)
                 newTag.setValue(tagName, forKey: "name")
                 try? context.save()
@@ -85,7 +86,7 @@ extension TagsViewController {
             photo.addToTags(tag)
         }
         
-        try? store.persistentContainer.viewContext.save()
+        try? store.viewContext.save()
         tableView.deselectRow(at: indexPath, animated: false)
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }

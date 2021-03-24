@@ -22,8 +22,8 @@ class PhotosViewController: UIViewController {
     }
     
     var store: PhotoStore!
-    let refreshControl = UIRefreshControl()
     let photoDataSource = PhotoDataSource()
+    private let refreshControl = UIRefreshControl()
     private let alert = Alert()
 
     override func viewDidLoad() {
@@ -67,8 +67,8 @@ class PhotosViewController: UIViewController {
     }
     
     func configureContexts() {
-        store.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-        store.persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+        store.viewContext.automaticallyMergesChangesFromParent = true
+        store.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
     private func fetchPhotosRemotely() {

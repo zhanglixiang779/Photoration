@@ -23,14 +23,14 @@ class PhotoStore {
     private let imageStore = ImageStore()
     private let alert = Alert()
     
-    private var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
     }()
+    
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
     
     let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Photoration")

@@ -21,21 +21,21 @@ class PhotoInfoViewController: UIViewController {
     
     private let alert = Alert()
     
+    private var buttonState: State {
+        if photo.isFavorite {
+            return .delete
+        } else {
+            return .save
+        }
+    }
+    
     var store: PhotoStore!
     
     var photo: Photo! {
         didSet {
             navigationItem.title = photo.title
-            let updatedPhoto = store.persistentContainer.viewContext.object(with: photo.objectID) as! Photo
+            let updatedPhoto = store.viewContext.object(with: photo.objectID) as! Photo
             photo.isFavorite = updatedPhoto.isFavorite
-        }
-    }
-    
-    var buttonState: State {
-        if photo.isFavorite {
-            return .delete
-        } else {
-            return .save
         }
     }
 
@@ -85,7 +85,7 @@ class PhotoInfoViewController: UIViewController {
     private func favPhoto() {
         do {
             photo.isFavorite = true
-            try store.persistentContainer.viewContext.save()
+            try store.viewContext.save()
         } catch {
             photo.isFavorite = false
             present(alert.alertController(message: "Cannot save image, please try again!"), animated: true, completion: nil)
@@ -96,7 +96,7 @@ class PhotoInfoViewController: UIViewController {
     private func unfavPhoto() {
         do {
             photo.isFavorite = false
-            try store.persistentContainer.viewContext.save()
+            try store.viewContext.save()
         } catch {
             photo.isFavorite = true
             present(alert.alertController(message: "Cannot unfavorite image, please try again!"), animated: true, completion: nil)
