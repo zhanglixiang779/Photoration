@@ -43,3 +43,8 @@ Also, clicking a single photo brings users to a new page:
 In PhotoInfoViewController, users are able to save and tag a photo in:
 
 5: **TagsViewController**: Users can create, select and deselect tags for the photo that is being viewed. 
+
+# How to build
+The app doesn't require any particular step to build the project, so any latest XCode should run the app. 
+
+**Note**: the app uses an API key from Flickr, so please feel free to replace it. 
