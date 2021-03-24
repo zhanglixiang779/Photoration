@@ -27,7 +27,7 @@ This app uses CoreData to persist data locally
 2: For favorite feature, it persists the photo save states and the states will be consistent across the app, which means that at any point of accessing a photo, the photo will have the right state: saved or not saved. 
 
 
-# User Interfaces
+# User Interfaces and Architecture
 This app has a TabBarController as the root ViewController, and has 3 tabs:
 
 1: **MostRecentPhotosViewController**: Shows the most recent photos in CollectionView, and users can pull to refresh the page
@@ -43,6 +43,10 @@ Also, clicking a single photo brings users to a new page:
 In PhotoInfoViewController, users are able to save and tag a photo in:
 
 5: **TagsViewController**: Users can create, select and deselect tags for the photo that is being viewed. 
+
+6: App pops an **Alert** if the app looses the network connection
+
+7: API related business logic is encapsulated in **FlickrAPI.swift**, and remote and local fetching related logic is encapsulated in **PhotoStore.swift**
 
 # How to build
 The app doesn't require any particular step to build the project, so any latest XCode should run the app. 
