@@ -78,7 +78,8 @@ class PhotosViewController: UIViewController {
                 case .success:
                     self.fetchPhotosLocally()
                 case let .failure(error):
-                    self.present(self.alert.alertController(message: error.localizedDescription), animated: true, completion: nil)
+                    self.present(self.alert.alertController(message: error.localizedDescription), animated: false, completion: nil)
+                    self.collectionView.setContentOffset(CGPoint(x: 0, y: -self.refreshControl.bounds.size.height), animated: true)
                 }
                 
                 self.refreshControl.endRefreshing()
