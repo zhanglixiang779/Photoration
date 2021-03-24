@@ -71,6 +71,13 @@ class PhotosViewController: UIViewController {
         store.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
+    func cellSize(layout collectionViewLayout: UICollectionViewLayout, numOfCell number: CGFloat) -> CGSize {
+        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
+        let space: CGFloat = flowLayout?.minimumInteritemSpacing ?? 0.0
+        let size: CGFloat = (collectionView.frame.size.width - (number + 1) * space) / number
+            return CGSize(width: size, height: size)
+    }
+    
     private func fetchPhotosRemotely() {
         if let category = category {
             store.fetchPhotosRemotely(category: category) { photosResult in
@@ -122,10 +129,7 @@ extension PhotosViewController: UICollectionViewDelegate {
 
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-        let space: CGFloat = flowLayout?.minimumInteritemSpacing ?? 0.0
-        let size: CGFloat = (collectionView.frame.size.width - 5 * space) / 4.0
-            return CGSize(width: size, height: size)
-        }
+        cellSize(layout: collectionViewLayout, numOfCell: 4.0)
+    }
 }
 
