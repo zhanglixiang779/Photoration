@@ -31,3 +31,15 @@ class FavoritePhotosViewController: PhotosViewController {
         }
     }
 }
+
+// MARK: UICollectionViewDelegateFlowLayout
+
+extension FavoritePhotosViewController {
+    
+    override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
+        let space: CGFloat = flowLayout?.minimumInteritemSpacing ?? 0.0
+        let size: CGFloat = (collectionView.frame.size.width - 3 * space) / 2.0
+            return CGSize(width: size, height: size)
+        }
+}
